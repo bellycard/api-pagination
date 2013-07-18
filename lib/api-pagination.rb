@@ -22,12 +22,11 @@ module ApiPagination
         %(<#{url}?#{new_params.to_param}>; rel="#{k}")
       end
 
-      headers['Link'] = links.join(', ') unless links.empty?
+      header 'Link', links.join(', ') unless links.empty?
     end
 end
 
-ActionController::Base.send(:include, ApiPagination) if defined?(ActionController::Base)
-ActionController::API.send(:include, ApiPagination)  if defined?(ActionController::API)
+Grape::API.send(:include, ApiPagination)  if defined?(Grape::API)
 
 if defined?(WillPaginate::CollectionMethods)
   WillPaginate::CollectionMethods.module_eval do
